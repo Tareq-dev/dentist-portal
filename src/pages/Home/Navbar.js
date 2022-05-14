@@ -1,22 +1,23 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const myItems = (
     <>
       <li>
-        <a href="/">Home</a>
+        <Link to="/">Home</Link>
       </li>
       <li>
-        <a href="//">About</a>
+        <Link to="//">About</Link>
       </li>
       <li>
-        <a href="//">Appointment</a>
+        <Link to="/appoinment">Appointment</Link>
       </li>
       <li>
-        <a href="//">Reviews</a>
+        <Link to="//">Reviews</Link>
       </li>
       <li>
-        <a href="//">Login</a>
+        <Link to="/login">Login</Link>
       </li>
     </>
   );
@@ -47,9 +48,9 @@ const Navbar = () => {
             {myItems}
           </ul>
         </div>
-        <a href="//" class="btn btn-ghost normal-case text-xl">
-          Doctors Portal{" "}
-        </a>
+        <Link to="/" class="btn btn-ghost normal-case text-xl">
+          Dentist Portals
+        </Link>
       </div>
       <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal p-0">{myItems}</ul>

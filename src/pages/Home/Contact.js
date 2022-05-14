@@ -3,7 +3,7 @@ import appointment from "../../assets/images/appointment.png";
 
 const Contact = () => {
   return (
-    <form style={{ background: `url(${appointment})` }} className="flex justify-center py-5">
+    <form style={{ background: `url(${appointment})` }} className="flex justify-center p-3 rounded-lg py-5">
       <div class="lg:w-1/3 md:w-1/2 flex flex-col md:mx-auto w-full md:py-8 mt-8 md:mt-0">
         <h2 class="text-primary text-lg mb-1 font-bold text-center">
           Contact Us

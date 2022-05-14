@@ -3,12 +3,12 @@ import treatment from "../../assets/images/treatment.png";
 
 const Exceptional = () => {
   return (
-    <div class="hero mb-32">
-      <div class="hero-content flex-col lg:flex-row">
-        <div class="flex-1">
-        <img class="max-w-sm rounded-lg shadow-2xl" src={treatment} alt="" />
-        </div>
-        <div class='flex-1'>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-32">
+      <div class="">
+        <img class="rounded-lg shadow-2xl" src={treatment} alt="" />
+      </div>
+      <div class="flex items-center">
+        <div>
           <h1 class="text-4xl font-bold">
             Exceptional Dental Care, on Your Terms
           </h1>
