@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import auth from "./../../firebase.init";
 import SocialLogin from "./SocialLogin";
 const Login = () => {
@@ -8,6 +8,7 @@ const Login = () => {
     useSignInWithEmailAndPassword(auth);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
   if (error) {
     return (
       <div>
@@ -19,11 +20,7 @@ const Login = () => {
     return <p>Loading...</p>;
   }
   if (user) {
-    return (
-      <div>
-        <p>Signed In User: {user.email}</p>
-      </div>
-    );
+    navigate("/");
   }
   return (
     <div className="flex justify-center">

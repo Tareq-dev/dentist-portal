@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import auth from "./../../firebase.init";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SocialLogin from "./SocialLogin";
 
 const Register = () => {
@@ -9,8 +9,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
-    
-    console.log(user);
+  const navigate = useNavigate();
   if (error) {
     return (
       <div>
@@ -22,11 +21,7 @@ const Register = () => {
     return <p>Loading...</p>;
   }
   if (user) {
-    return (
-      <div>
-        <p>Registered User: {user?.email}</p>
-      </div>
-    );
+    navigate("/");
   }
   return (
     <div className="flex justify-center">
@@ -63,7 +58,7 @@ const Register = () => {
         <p className="text-center mt-5">
           Already have an account?
           <Link className="text-primary px-2" to="/login">
-           Login
+            Login
           </Link>
         </p>
         <div className="text-center py-5 text-gray-400">
