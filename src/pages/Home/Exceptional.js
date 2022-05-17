@@ -1,7 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import treatment from "../../assets/images/treatment.png";
 
 const Exceptional = () => {
+  const navigate = useNavigate();
+  const appointment = () => {
+    navigate("appoinment");
+  };
   return (
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-32">
       <div class="">
@@ -20,7 +25,10 @@ const Exceptional = () => {
             here', making it look like readable English. Many desktop publishing
             packages and web page
           </p>
-          <button class="btn btn-primary bg-gradient-to-r from-secondary">
+          <button
+            onClick={appointment}
+            class="btn btn-primary bg-gradient-to-r from-secondary"
+          >
             Get Started
           </button>
         </div>
