@@ -1,58 +1,108 @@
 import React, { useState } from "react";
 import auth from "./../../firebase.init";
-import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  useCreateUserWithEmailAndPassword,
+  useUpdateProfile,
+} from "react-firebase-hooks/auth";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import SocialLogin from "./SocialLogin";
+import Loading from "../../components/Loading";
+import { toast } from 'react-toastify';
 
 const Register = () => {
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
   const navigate = useNavigate();
-  if (error) {
+  const location = useLocation();
+  let from = location.state?.from?.pathname || "/";
+  const [updateProfile, updating, updateError] = useUpdateProfile(auth);
+
+  if (error || updateError) {
     return (
       <div>
         <p>Error: {error.message}</p>
       </div>
     );
   }
-  if (loading) {
-    return <p>Loading...</p>;
+  if (loading || updating) {
+    return <Loading />;
   }
   if (user) {
-    navigate("/");
+    navigate(from, { replace: true });
   }
+  const handleCreateUser = async (event) => {
+    event.preventDefault();
+    if (password === confirmPassword) {
+      await createUserWithEmailAndPassword(email, password);
+      await updateProfile({ displayName: name });
+      console.log("done");
+      navigate("/appoinment");
+    }else{
+      toast.error("You have to match both password")
+    }
+  };
   return (
     <div className="flex justify-center">
       <div className="shadow-xl p-8 rounded-lg mt-5">
         <h2 className="text-2xl text-center">Register</h2>
         <div className="flex justify-center pt-8">
-          <form className="flex-col justify-center mx-auto">
-            <label htmlFor="" className="text-md mx-2">
+          <form
+            onSubmit={handleCreateUser}
+            className="flex-col justify-center mx-auto"
+          >
+            <label className="text-md mx-2">
+              Name
+            </label>
+            <input
+              className="border-2 rounded-lg px-4 py-2 block w-80"
+              type="name"
+              required
+              autoComplete="off"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <label className="text-md mx-2 block mt-5">
               Email
             </label>
             <input
               className="border-2 rounded-lg px-4 py-2 block w-80"
               type="email"
+              required
+              autoComplete="off"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <label htmlFor="" className="text-md mx-2 block mt-5">
+            <label className="text-md mx-2 block mt-5">
               Password
             </label>
             <input
               className="border-2 rounded-lg px-4 py-2 block w-80"
               type="password"
+              required
+              autoComplete="off"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <button
+            <label className="text-md mx-2 block mt-5">
+              Confirm Password
+            </label>
+            <input
+              className="border-2 rounded-lg px-4 py-2 block w-80"
+              type="password"
+              required
+              autoComplete="off"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+            <input
+              type="submit"
+              value="Login"
               className="border-2 rounded-lg px-4 py-2 block w-80 mt-5 bg-black text-white"
-              onClick={() => createUserWithEmailAndPassword(email, password)}
-            >
-              Login
-            </button>
+            />
           </form>
         </div>
         <p className="text-center mt-5">
