@@ -6,8 +6,12 @@ import Navbar from "./pages/Home/Navbar";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Login/Register";
 import RequireAuth from "./pages/Login/RequireAuth";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import MyAppointment from "./pages/Dashboard/MyAppointment";
+import MyReview from "./pages/Dashboard/MyReview";
+import MyHistory from "./pages/Dashboard/MyHistory";
 
 function App() {
   return (
@@ -23,6 +27,18 @@ function App() {
             </RequireAuth>
           }
         ></Route>
+        <Route
+          path="/dashboard"
+          element={
+            <RequireAuth>
+              <Dashboard />
+            </RequireAuth>
+          }
+        >
+          <Route index element={<MyAppointment />}></Route>
+          <Route path="my-review" element={<MyReview />}></Route>
+          <Route path="my-history" element={<MyHistory />}></Route>
+        </Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
       </Routes>
