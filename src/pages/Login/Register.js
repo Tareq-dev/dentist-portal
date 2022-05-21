@@ -7,7 +7,8 @@ import {
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import SocialLogin from "./SocialLogin";
 import Loading from "../../components/Loading";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
+import useToken from "./../../Hooks/useToken";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -20,7 +21,7 @@ const Register = () => {
   const location = useLocation();
   let from = location.state?.from?.pathname || "/";
   const [updateProfile, updating, updateError] = useUpdateProfile(auth);
-
+  const [token] = useToken(user);
   if (error || updateError) {
     return (
       <div>
@@ -31,7 +32,7 @@ const Register = () => {
   if (loading || updating) {
     return <Loading />;
   }
-  if (user) {
+  if (token) {
     navigate(from, { replace: true });
   }
   const handleCreateUser = async (event) => {
@@ -39,10 +40,8 @@ const Register = () => {
     if (password === confirmPassword) {
       await createUserWithEmailAndPassword(email, password);
       await updateProfile({ displayName: name });
-      console.log("done");
-      navigate("/appoinment");
-    }else{
-      toast.error("You have to match both password")
+    } else {
+      toast.error("You have to match both password");
     }
   };
   return (
@@ -54,9 +53,7 @@ const Register = () => {
             onSubmit={handleCreateUser}
             className="flex-col justify-center mx-auto"
           >
-            <label className="text-md mx-2">
-              Name
-            </label>
+            <label className="text-md mx-2">Name</label>
             <input
               className="border-2 rounded-lg px-4 py-2 block w-80"
               type="name"
@@ -65,9 +62,7 @@ const Register = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-            <label className="text-md mx-2 block mt-5">
-              Email
-            </label>
+            <label className="text-md mx-2 block mt-5">Email</label>
             <input
               className="border-2 rounded-lg px-4 py-2 block w-80"
               type="email"
@@ -76,9 +71,7 @@ const Register = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <label className="text-md mx-2 block mt-5">
-              Password
-            </label>
+            <label className="text-md mx-2 block mt-5">Password</label>
             <input
               className="border-2 rounded-lg px-4 py-2 block w-80"
               type="password"
@@ -87,9 +80,7 @@ const Register = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <label className="text-md mx-2 block mt-5">
-              Confirm Password
-            </label>
+            <label className="text-md mx-2 block mt-5">Confirm Password</label>
             <input
               className="border-2 rounded-lg px-4 py-2 block w-80"
               type="password"
