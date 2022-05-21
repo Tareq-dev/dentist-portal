@@ -4,7 +4,7 @@ import auth from "./../../firebase.init";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { toast } from "react-toastify";
 
-const BookingModal = ({ treatment, setTreatment, date }) => {
+const BookingModal = ({ treatment, setTreatment, date, refetch }) => {
   const [user] = useAuthState(auth);
   const { _id, name, slots } = treatment;
   const formatedDate = format(date, "PP");
@@ -32,9 +32,12 @@ const BookingModal = ({ treatment, setTreatment, date }) => {
       .then((data) => {
         if (data.success) {
           toast(`Appointment is set, ${formatedDate} at ${slot}`);
-        }else{
-          toast.error(`Already have an appointment on ${data.booking?.date} at ${data.booking?.slot}`);
+        } else {
+          toast.error(
+            `Already have an appointment on ${data.booking?.date} at ${data.booking?.slot}`
+          );
         }
+        refetch();
         setTreatment(null);
       });
   };
@@ -62,9 +65,12 @@ const BookingModal = ({ treatment, setTreatment, date }) => {
               value={format(date, "PP")}
               class="input input-bordered w-full max-w-xs"
             />
-            <select name="slot" class="select select-bordered w-full max-w-xs">
-              {slots.map((slot) => (
-                <option value={slot} key={slot._id}>
+            <select
+              name="slot"
+              className="select select-bordered w-full max-w-xs"
+            >
+              {slots.map((slot, index) => (
+                <option key={index} value={slot}>
                   {slot}
                 </option>
               ))}
